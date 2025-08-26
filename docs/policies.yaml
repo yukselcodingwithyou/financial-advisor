@@ -1,0 +1,11 @@
+# Financial Advisor Policy Definitions
+# This file contains policy definitions for the financial decision-making framework
+
+# Example structure:
+# policies:
+#   risk_management:
+#     description: "Risk assessment and management policies"
+#   investment_strategies:
+#     description: "Investment strategy guidelines"
+#   compliance:
+#     description: "Regulatory compliance requirements"
