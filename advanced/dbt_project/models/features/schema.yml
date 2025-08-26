@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: esg_indicators
+    description: ESG indicators for financial assets
+    columns:
+      - name: symbol
+        description: Company stock symbol
+        tests:
+          - not_null
+          - unique
+      - name: overall_esg_score
+        description: Overall ESG score (0-10)
+        tests:
+          - not_null
+      - name: environmental_score
+        tests:
+          - not_null
+      - name: social_score
+        tests:
+          - not_null
+      - name: governance_score
+        tests:
+          - not_null
+
+  - name: credit_indicators
+    description: Credit risk indicators for financial assets
+    columns:
+      - name: symbol
+        description: Company stock symbol
+        tests:
+          - not_null
+          - unique
+      - name: credit_rating
+        description: Credit rating from rating agencies
+        tests:
+          - not_null
+      - name: probability_of_default
+        description: Probability of default percentage
+        tests:
+          - not_null
+      - name: credit_score
+        description: Calculated credit score (0-100)
+        tests:
+          - not_null
+
+  - name: macro_indicators
+    description: Macroeconomic indicators by country
+    columns:
+      - name: country
+        description: Country code
+        tests:
+          - not_null
+          - unique
+      - name: federal_funds_rate
+        description: Central bank interest rate
+        tests:
+          - not_null
+      - name: inflation_rate_yoy
+        description: Year-over-year inflation rate
+        tests:
+          - not_null
+      - name: unemployment_rate
+        description: Unemployment rate percentage
+        tests:
+          - not_null

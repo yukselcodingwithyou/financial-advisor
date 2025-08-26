@@ -1,0 +1,11 @@
+financial_advisor:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: financial_advisor.duckdb
+      threads: 4
+    prod:
+      type: duckdb  
+      path: financial_advisor_prod.duckdb
+      threads: 8

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.pytest_cache/
+
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+*.duckdb
+
+# Feast
+data/*.db
+*.parquet
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
