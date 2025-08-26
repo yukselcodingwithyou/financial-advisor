@@ -1,0 +1,169 @@
+# Financial Advisor Policy Definitions
+# This file defines investment policies including country limits, theme limits,
+# blacklist/whitelist mechanisms, and ESG constraints.
+
+version: "1.0"
+
+# Country-based investment limits
+country_limits:
+  # Maximum allocation percentage per country
+  max_allocation_per_country: 25.0
+  
+  # Preferred countries (higher allocation allowed)
+  preferred_countries:
+    - "US"
+    - "UK" 
+    - "DE"
+    - "CA"
+    - "JP"
+  
+  # Restricted countries (limited or no allocation)
+  restricted_countries:
+    - "RU"
+    - "CN"  # Limited exposure
+    - "IR"
+  
+  # Minimum diversification (minimum number of countries)
+  min_countries: 3
+
+# Theme-based investment limits
+theme_limits:
+  # Maximum allocation percentage per investment theme
+  max_allocation_per_theme: 30.0
+  
+  # Preferred investment themes
+  preferred_themes:
+    - "technology"
+    - "healthcare"
+    - "renewable_energy"
+    - "sustainable_infrastructure"
+    - "education"
+  
+  # Restricted themes
+  restricted_themes:
+    - "fossil_fuels"
+    - "tobacco"
+    - "weapons"
+    - "gambling"
+  
+  # Required minimum exposure to specific themes
+  required_themes:
+    renewable_energy:
+      min_allocation: 5.0
+    technology:
+      min_allocation: 10.0
+
+# Blacklist and Whitelist mechanisms
+security_lists:
+  # Investment blacklist - securities to avoid
+  blacklist:
+    companies:
+      - "COMPANY_A"  # Example blacklisted company
+      - "COMPANY_B"
+    
+    sectors:
+      - "tobacco_manufacturing"
+      - "weapons_manufacturing"
+      - "coal_mining"
+    
+    # Securities with poor ESG ratings
+    esg_blacklist:
+      min_esg_score: 3.0  # Below this score is blacklisted
+  
+  # Investment whitelist - preferred securities
+  whitelist:
+    companies:
+      - "AAPL"  # Apple
+      - "MSFT"  # Microsoft
+      - "GOOGL" # Alphabet
+    
+    sectors:
+      - "renewable_energy"
+      - "healthcare_innovation"
+      - "sustainable_technology"
+    
+    # High ESG rated securities
+    esg_whitelist:
+      min_esg_score: 8.0  # Above this score is preferred
+
+# ESG (Environmental, Social, Governance) constraints
+esg_constraints:
+  # Overall portfolio ESG requirements
+  portfolio_requirements:
+    min_avg_esg_score: 6.0
+    max_carbon_intensity: 150.0  # tCO2e/$M revenue
+    min_board_diversity: 30.0    # Percentage women on board
+  
+  # Environmental criteria
+  environmental:
+    # Carbon footprint limits
+    carbon_limits:
+      max_scope1_emissions: 1000000  # tonnes CO2
+      max_scope2_emissions: 500000   # tonnes CO2
+      max_water_usage: 1000000       # cubic meters
+    
+    # Environmental performance requirements
+    renewable_energy_min: 50.0  # Minimum % renewable energy use
+    waste_reduction_target: 20.0 # Minimum % waste reduction year-over-year
+  
+  # Social criteria
+  social:
+    # Labor standards
+    labor_standards:
+      no_child_labor: true
+      fair_wages: true
+      safe_working_conditions: true
+    
+    # Community impact
+    community_investment_min: 1.0  # Minimum % revenue to community programs
+    
+    # Product safety and quality standards
+    product_safety_compliance: true
+  
+  # Governance criteria
+  governance:
+    # Board composition requirements
+    board_independence_min: 50.0  # Minimum % independent directors
+    board_diversity_min: 30.0     # Minimum % diverse directors
+    
+    # Executive compensation limits
+    ceo_pay_ratio_max: 300  # Maximum CEO to median worker pay ratio
+    
+    # Transparency and disclosure
+    financial_transparency: true
+    esg_disclosure: true
+    
+    # Anti-corruption policies
+    anti_corruption_policy: true
+    whistleblower_protection: true
+
+# Risk management constraints
+risk_management:
+  # Portfolio-level risk limits
+  max_portfolio_volatility: 15.0  # Maximum portfolio volatility %
+  max_sector_concentration: 35.0  # Maximum allocation to any sector %
+  max_single_security: 5.0        # Maximum allocation to single security %
+  
+  # Liquidity requirements
+  min_daily_liquidity: 10.0       # Minimum % that can be liquidated daily
+  
+  # Credit quality requirements
+  min_credit_rating: "BBB"        # Minimum credit rating for bonds
+
+# Compliance and monitoring
+compliance:
+  # Monitoring frequency
+  policy_review_frequency: "quarterly"
+  esg_assessment_frequency: "annually"
+  
+  # Violation thresholds
+  minor_violation_threshold: 2.0   # Percentage points
+  major_violation_threshold: 5.0   # Percentage points
+  
+  # Rebalancing triggers
+  rebalancing_threshold: 3.0       # Percentage drift from target
+  
+  # Reporting requirements
+  monthly_reporting: true
+  quarterly_esg_reporting: true
+  annual_impact_reporting: true
