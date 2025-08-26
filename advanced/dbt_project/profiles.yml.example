@@ -1,0 +1,28 @@
+# Example profiles.yml for dbt configuration
+# This file should be placed in ~/.dbt/profiles.yml or configured according to your environment
+
+financial_advisor:
+  outputs:
+    dev:
+      type: postgres  # or snowflake, bigquery, redshift, etc.
+      host: localhost
+      user: "{{ env_var('DB_USER') }}"
+      password: "{{ env_var('DB_PASSWORD') }}"
+      port: 5432
+      dbname: financial_advisor
+      schema: public
+      threads: 4
+      keepalives_idle: 0
+    
+    prod:
+      type: postgres
+      host: "{{ env_var('PROD_DB_HOST') }}"
+      user: "{{ env_var('PROD_DB_USER') }}"
+      password: "{{ env_var('PROD_DB_PASSWORD') }}"
+      port: 5432
+      dbname: financial_advisor_prod
+      schema: public
+      threads: 8
+      keepalives_idle: 0
+  
+  target: dev

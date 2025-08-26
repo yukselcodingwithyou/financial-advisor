@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: momentum
+    description: "Calculates 12-month price momentum for stock analysis"
+    columns:
+      - name: symbol
+        description: "Stock ticker symbol"
+        tests:
+          - not_null
+      - name: date
+        description: "Trading date"
+        tests:
+          - not_null
+      - name: close_price
+        description: "Current closing price"
+        tests:
+          - not_null
+      - name: price_12m_ago
+        description: "Closing price from 12 months ago"
+      - name: momentum_12m_pct
+        description: "Percentage change in price over 12 months"
+      - name: momentum_category
+        description: "Categorical momentum strength (Strong Positive, Moderate Positive, Neutral, Moderate Negative, Strong Negative)"
+      - name: calculated_at
+        description: "Timestamp when momentum was calculated"
+
+  - name: volatility
+    description: "Calculates 12-month price volatility using standard deviation of daily returns"
+    columns:
+      - name: symbol
+        description: "Stock ticker symbol"
+        tests:
+          - not_null
+      - name: date
+        description: "Trading date"
+        tests:
+          - not_null
+      - name: close_price
+        description: "Current closing price"
+        tests:
+          - not_null
+      - name: daily_return_pct
+        description: "Daily percentage return"
+      - name: volatility_12m_stddev
+        description: "12-month rolling standard deviation of daily returns"
+      - name: annualized_volatility
+        description: "Annualized volatility percentage"
+      - name: avg_abs_return_12m
+        description: "Average absolute daily return over 12 months"
+      - name: volatility_category
+        description: "Categorical volatility level (Very High, High, Moderate, Low, Very Low)"
+      - name: trading_days_count
+        description: "Number of trading days used in volatility calculation"
+      - name: calculated_at
+        description: "Timestamp when volatility was calculated"
