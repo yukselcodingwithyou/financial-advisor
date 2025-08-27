@@ -1,0 +1,47 @@
+symbol,sector,sector_code,benchmark_weight
+AAPL,Technology,25,0.0450
+MSFT,Technology,25,0.0420
+GOOGL,Technology,25,0.0250
+AMZN,Consumer Discretionary,25,0.0220
+TSLA,Consumer Discretionary,25,0.0150
+META,Technology,25,0.0140
+NVDA,Technology,25,0.0180
+JPM,Financials,40,0.0120
+JNJ,Healthcare,35,0.0110
+V,Technology,25,0.0100
+PG,Consumer Staples,30,0.0095
+UNH,Healthcare,35,0.0090
+HD,Consumer Discretionary,25,0.0085
+DIS,Communication Services,50,0.0080
+BAC,Financials,40,0.0075
+XOM,Energy,10,0.0070
+CVX,Energy,10,0.0065
+PFE,Healthcare,35,0.0060
+KO,Consumer Staples,30,0.0055
+PEP,Consumer Staples,30,0.0050
+ADBE,Technology,25,0.0048
+NFLX,Communication Services,50,0.0045
+CRM,Technology,25,0.0042
+TMO,Healthcare,35,0.0040
+ABT,Healthcare,35,0.0038
+COST,Consumer Staples,30,0.0035
+AVGO,Technology,25,0.0033
+ACN,Technology,25,0.0032
+DHR,Healthcare,35,0.0030
+TXN,Technology,25,0.0028
+NEE,Utilities,55,0.0025
+LLY,Healthcare,35,0.0024
+ORCL,Technology,25,0.0023
+WMT,Consumer Staples,30,0.0022
+CSCO,Technology,25,0.0021
+VZ,Communication Services,50,0.0020
+MRK,Healthcare,35,0.0019
+BRK.B,Financials,40,0.0018
+QCOM,Technology,25,0.0017
+T,Communication Services,50,0.0016
+IBM,Technology,25,0.0015
+GE,Industrials,20,0.0014
+F,Consumer Discretionary,25,0.0013
+GM,Consumer Discretionary,25,0.0012
+WFC,Financials,40,0.0011
+C,Financials,40,0.0010

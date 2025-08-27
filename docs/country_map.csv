@@ -1,0 +1,51 @@
+symbol,country,country_code,region,currency
+AAPL,United States,US,North America,USD
+MSFT,United States,US,North America,USD
+GOOGL,United States,US,North America,USD
+AMZN,United States,US,North America,USD
+TSLA,United States,US,North America,USD
+META,United States,US,North America,USD
+NVDA,United States,US,North America,USD
+JPM,United States,US,North America,USD
+JNJ,United States,US,North America,USD
+V,United States,US,North America,USD
+PG,United States,US,North America,USD
+UNH,United States,US,North America,USD
+HD,United States,US,North America,USD
+DIS,United States,US,North America,USD
+BAC,United States,US,North America,USD
+XOM,United States,US,North America,USD
+CVX,United States,US,North America,USD
+PFE,United States,US,North America,USD
+KO,United States,US,North America,USD
+PEP,United States,US,North America,USD
+ASML,Netherlands,NL,Europe,EUR
+SAP,Germany,DE,Europe,EUR
+NESN,Switzerland,CH,Europe,CHF
+NVSE,Switzerland,CH,Europe,CHF
+ROCHE,Switzerland,CH,Europe,CHF
+TSM,Taiwan,TW,Asia Pacific,TWD
+BABA,China,CN,Asia Pacific,USD
+TCEHY,China,CN,Asia Pacific,HKD
+JD,China,CN,Asia Pacific,USD
+BIDU,China,CN,Asia Pacific,USD
+7203.T,Japan,JP,Asia Pacific,JPY
+6758.T,Japan,JP,Asia Pacific,JPY
+9984.T,Japan,JP,Asia Pacific,JPY
+6861.T,Japan,JP,Asia Pacific,JPY
+8306.T,Japan,JP,Asia Pacific,JPY
+005930.KS,South Korea,KR,Asia Pacific,KRW
+000660.KS,South Korea,KR,Asia Pacific,KRW
+035420.KS,South Korea,KR,Asia Pacific,KRW
+207940.KS,South Korea,KR,Asia Pacific,KRW
+006400.KS,South Korea,KR,Asia Pacific,KRW
+RIO,Australia,AU,Asia Pacific,AUD
+BHP,Australia,AU,Asia Pacific,AUD
+CSL,Australia,AU,Asia Pacific,AUD
+CBA,Australia,AU,Asia Pacific,AUD
+WBC,Australia,AU,Asia Pacific,AUD
+RELIANCE.NS,India,IN,Asia Pacific,INR
+TCS.NS,India,IN,Asia Pacific,INR
+INFY.NS,India,IN,Asia Pacific,INR
+HDFCBANK.NS,India,IN,Asia Pacific,INR
+ITC.NS,India,IN,Asia Pacific,INR

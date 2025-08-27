@@ -1,0 +1,249 @@
+# Financial Decision Engine Policy Configuration
+
+# Risk Management Policies
+risk_management:
+  concentration_limits:
+    max_single_asset: 0.05  # Maximum 5% in any single asset
+    max_sector: 0.15        # Maximum 15% in any sector
+    max_country: 0.25       # Maximum 25% in any country
+    max_currency: 0.30      # Maximum 30% in any currency
+    
+  tracking_error_limits:
+    max_te: 0.02           # Maximum 2% tracking error
+    target_te: 0.015       # Target 1.5% tracking error
+    
+  volatility_limits:
+    max_portfolio_vol: 0.20  # Maximum 20% portfolio volatility
+    max_asset_vol: 0.50      # Maximum 50% single asset volatility
+
+# Factor Tilt Coefficients
+factor_tilts:
+  momentum:
+    coefficient: 0.10      # 10% tilt towards momentum
+    lookback_days: 252     # 1-year momentum calculation
+    min_score: -2.0        # Minimum momentum z-score
+    max_score: 2.0         # Maximum momentum z-score
+    
+  value:
+    coefficient: 0.05      # 5% tilt towards value
+    pe_weight: 0.4         # P/E ratio weight
+    pb_weight: 0.3         # P/B ratio weight
+    ev_ebitda_weight: 0.3  # EV/EBITDA weight
+    
+  quality:
+    coefficient: 0.03      # 3% tilt towards quality
+    roe_weight: 0.4        # Return on Equity weight
+    debt_equity_weight: 0.3 # Debt/Equity weight
+    profit_margin_weight: 0.3 # Profit margin weight
+    
+  low_volatility:
+    coefficient: -0.02     # -2% tilt against high volatility
+    lookback_days: 126     # 6-month volatility calculation
+    
+  esg:
+    coefficient: 0.02      # 2% tilt towards ESG
+    environmental_weight: 0.33
+    social_weight: 0.33
+    governance_weight: 0.34
+
+# Sector Constraints
+sector_constraints:
+  technology:
+    min_weight: 0.05
+    max_weight: 0.25
+    benchmark_weight: 0.20
+    
+  financials:
+    min_weight: 0.02
+    max_weight: 0.20
+    benchmark_weight: 0.15
+    
+  healthcare:
+    min_weight: 0.03
+    max_weight: 0.18
+    benchmark_weight: 0.12
+    
+  consumer_discretionary:
+    min_weight: 0.02
+    max_weight: 0.15
+    benchmark_weight: 0.10
+    
+  industrials:
+    min_weight: 0.02
+    max_weight: 0.15
+    benchmark_weight: 0.08
+    
+  consumer_staples:
+    min_weight: 0.01
+    max_weight: 0.10
+    benchmark_weight: 0.07
+    
+  energy:
+    min_weight: 0.00
+    max_weight: 0.08
+    benchmark_weight: 0.05
+    
+  materials:
+    min_weight: 0.00
+    max_weight: 0.08
+    benchmark_weight: 0.04
+    
+  utilities:
+    min_weight: 0.00
+    max_weight: 0.06
+    benchmark_weight: 0.03
+    
+  real_estate:
+    min_weight: 0.00
+    max_weight: 0.05
+    benchmark_weight: 0.03
+    
+  communication_services:
+    min_weight: 0.00
+    max_weight: 0.12
+    benchmark_weight: 0.08
+
+# Country/Region Constraints  
+country_constraints:
+  united_states:
+    min_weight: 0.30
+    max_weight: 0.70
+    benchmark_weight: 0.55
+    
+  developed_europe:
+    min_weight: 0.10
+    max_weight: 0.30
+    benchmark_weight: 0.20
+    
+  japan:
+    min_weight: 0.02
+    max_weight: 0.15
+    benchmark_weight: 0.08
+    
+  emerging_markets:
+    min_weight: 0.05
+    max_weight: 0.20
+    benchmark_weight: 0.12
+    
+  china:
+    min_weight: 0.00
+    max_weight: 0.10
+    benchmark_weight: 0.05
+
+# Risk Model Parameters
+risk_model:
+  factor_model:
+    num_factors: 10        # Number of risk factors
+    factor_decay: 0.97     # Factor return decay
+    specific_decay: 0.95   # Specific return decay
+    
+  covariance_estimation:
+    method: "shrinkage"    # shrinkage, sample, factor_model
+    shrinkage_intensity: 0.2
+    min_eigenvalue: 1e-8
+    
+  return_estimation:
+    method: "black_litterman"  # historical, black_litterman, factor_model
+    confidence_level: 0.95
+    tau: 0.025             # Black-Litterman scaling parameter
+
+# Optimization Parameters
+optimization:
+  mean_variance:
+    risk_aversion: 3.0     # Default risk aversion
+    max_iterations: 1000
+    tolerance: 1e-6
+    
+  cvar:
+    alpha: 0.05           # 5% CVaR
+    confidence_level: 0.95
+    num_scenarios: 10000
+    
+  robust:
+    uncertainty_set: "ellipsoidal"
+    kappa: 0.1            # Robustness parameter
+    
+  transaction_costs:
+    linear_cost: 0.001    # 10 bps linear cost
+    market_impact: 0.0005 # 5 bps market impact
+    
+# Rebalancing Rules
+rebalancing:
+  frequency: "monthly"     # daily, weekly, monthly, quarterly
+  trigger_rules:
+    drift_threshold: 0.02  # Rebalance if asset drifts >2% from target
+    risk_threshold: 0.005  # Rebalance if risk increases >0.5%
+    
+  constraints:
+    max_turnover: 0.20     # Maximum 20% portfolio turnover
+    min_trade_size: 0.001  # Minimum 0.1% trade size
+
+# ESG Integration
+esg_integration:
+  exclusions:
+    - "tobacco"
+    - "controversial_weapons"
+    - "thermal_coal"
+    
+  minimum_scores:
+    environmental: 5.0     # Minimum E score (1-10 scale)
+    social: 5.0           # Minimum S score (1-10 scale)
+    governance: 6.0       # Minimum G score (1-10 scale)
+    
+  tilt_methodology: "best_in_class"  # best_in_class, esg_momentum, thematic
+
+# Stress Testing
+stress_testing:
+  scenarios:
+    - name: "2008_financial_crisis"
+      equity_shock: -0.40
+      credit_spread_shock: 0.03
+      vix_shock: 0.25
+      
+    - name: "covid_pandemic"
+      equity_shock: -0.30
+      bond_shock: -0.05
+      commodity_shock: -0.20
+      
+    - name: "inflation_shock"
+      equity_shock: -0.15
+      bond_shock: -0.10
+      commodity_shock: 0.25
+      
+  risk_measures:
+    var_confidence: 0.95
+    cvar_confidence: 0.95
+    max_drawdown_limit: 0.15
+
+# Reporting and Monitoring
+reporting:
+  risk_attribution:
+    factor_attribution: true
+    sector_attribution: true
+    country_attribution: true
+    
+  performance_attribution:
+    asset_selection: true
+    timing: true
+    interaction: true
+    
+  alert_thresholds:
+    tracking_error: 0.025
+    concentration_hhi: 0.15
+    max_drawdown: 0.10
+    
+# Compliance
+compliance:
+  regulations:
+    - "UCITS"
+    - "ERISA"
+    - "MiFID_II"
+    
+  documentation:
+    prospectus_update_frequency: "quarterly"
+    risk_disclosure_update: "monthly"
+    
+  audit_trail:
+    retain_decisions: true
+    decision_rationale: true
+    override_documentation: true
