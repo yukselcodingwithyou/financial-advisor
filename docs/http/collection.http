@@ -1,0 +1,147 @@
+### API Collection for Financial Decision Engine
+
+# Health check
+GET http://localhost:8000/health
+Accept: application/json
+
+###
+
+# Get API documentation
+GET http://localhost:8000/docs
+Accept: text/html
+
+###
+
+# Get current policies
+GET http://localhost:8000/policies
+Accept: application/json
+
+###
+
+# Portfolio optimization - Simple case
+POST http://localhost:8000/optimize
+Content-Type: application/json
+
+{
+  "assets": ["AAPL", "GOOGL", "MSFT"],
+  "expected_returns": {
+    "AAPL": 0.12,
+    "GOOGL": 0.10,
+    "MSFT": 0.08
+  },
+  "covariance_matrix": [
+    [0.04, 0.01, 0.01],
+    [0.01, 0.03, 0.01],
+    [0.01, 0.01, 0.02]
+  ],
+  "risk_aversion": 3.0
+}
+
+###
+
+# Portfolio optimization with constraints
+POST http://localhost:8000/optimize
+Content-Type: application/json
+
+{
+  "assets": ["AAPL", "GOOGL", "MSFT", "AMZN", "TSLA"],
+  "expected_returns": {
+    "AAPL": 0.12,
+    "GOOGL": 0.10,
+    "MSFT": 0.08,
+    "AMZN": 0.15,
+    "TSLA": 0.18
+  },
+  "covariance_matrix": [
+    [0.04, 0.01, 0.01, 0.02, 0.03],
+    [0.01, 0.03, 0.01, 0.015, 0.02],
+    [0.01, 0.01, 0.02, 0.01, 0.015],
+    [0.02, 0.015, 0.01, 0.06, 0.04],
+    [0.03, 0.02, 0.015, 0.04, 0.09]
+  ],
+  "risk_aversion": 5.0,
+  "constraints": {
+    "max_weight": 0.30,
+    "min_weight": 0.05
+  }
+}
+
+###
+
+# Concentration repair
+POST http://localhost:8000/repair-concentration
+Content-Type: application/json
+
+{
+  "current_weights": {
+    "AAPL": 0.50,
+    "GOOGL": 0.30,
+    "MSFT": 0.20
+  },
+  "max_concentration": 0.25
+}
+
+###
+
+# Concentration repair with sector constraints
+POST http://localhost:8000/repair-concentration
+Content-Type: application/json
+
+{
+  "current_weights": {
+    "AAPL": 0.40,
+    "GOOGL": 0.25,
+    "MSFT": 0.20,
+    "JPM": 0.10,
+    "JNJ": 0.05
+  },
+  "max_concentration": 0.15,
+  "sector_caps": {
+    "Technology": 0.60,
+    "Healthcare": 0.10,
+    "Financials": 0.15
+  }
+}
+
+###
+
+# Risk metrics calculation
+POST http://localhost:8000/risk-metrics
+Content-Type: application/json
+
+{
+  "weights": {
+    "AAPL": 0.30,
+    "GOOGL": 0.25,
+    "MSFT": 0.20,
+    "JPM": 0.15,
+    "JNJ": 0.10
+  },
+  "benchmark_weights": {
+    "AAPL": 0.20,
+    "GOOGL": 0.20,
+    "MSFT": 0.20,
+    "JPM": 0.20,
+    "JNJ": 0.20
+  }
+}
+
+###
+
+# Test invalid optimization request (should return error)
+POST http://localhost:8000/optimize
+Content-Type: application/json
+
+{
+  "assets": ["AAPL", "GOOGL"],
+  "expected_returns": {
+    "AAPL": 0.12,
+    "GOOGL": 0.10
+  },
+  "covariance_matrix": [
+    [0.04, 0.01]
+  ],
+  "risk_aversion": 3.0
+}
+
+###

@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Financial Decision Engine API",
+		"description": "API collection for the Financial Decision Engine portfolio optimization system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health & Status",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Policies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/policies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Portfolio Optimization",
+			"item": [
+				{
+					"name": "Basic Optimization",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assets\": [\"AAPL\", \"GOOGL\", \"MSFT\"],\n  \"expected_returns\": {\n    \"AAPL\": 0.12,\n    \"GOOGL\": 0.10,\n    \"MSFT\": 0.08\n  },\n  \"covariance_matrix\": [\n    [0.04, 0.01, 0.01],\n    [0.01, 0.03, 0.01],\n    [0.01, 0.01, 0.02]\n  ],\n  \"risk_aversion\": 3.0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/optimize",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"optimize"
+							]
+						}
+					}
+				},
+				{
+					"name": "Optimization with Constraints",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assets\": [\"AAPL\", \"GOOGL\", \"MSFT\", \"AMZN\", \"TSLA\"],\n  \"expected_returns\": {\n    \"AAPL\": 0.12,\n    \"GOOGL\": 0.10,\n    \"MSFT\": 0.08,\n    \"AMZN\": 0.15,\n    \"TSLA\": 0.18\n  },\n  \"covariance_matrix\": [\n    [0.04, 0.01, 0.01, 0.02, 0.03],\n    [0.01, 0.03, 0.01, 0.015, 0.02],\n    [0.01, 0.01, 0.02, 0.01, 0.015],\n    [0.02, 0.015, 0.01, 0.06, 0.04],\n    [0.03, 0.02, 0.015, 0.04, 0.09]\n  ],\n  \"risk_aversion\": 5.0,\n  \"constraints\": {\n    \"max_weight\": 0.30,\n    \"min_weight\": 0.05\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/optimize",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"optimize"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Risk Management",
+			"item": [
+				{
+					"name": "Basic Concentration Repair",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"current_weights\": {\n    \"AAPL\": 0.50,\n    \"GOOGL\": 0.30,\n    \"MSFT\": 0.20\n  },\n  \"max_concentration\": 0.25\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repair-concentration",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repair-concentration"
+							]
+						}
+					}
+				},
+				{
+					"name": "Concentration Repair with Sector Caps",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"current_weights\": {\n    \"AAPL\": 0.40,\n    \"GOOGL\": 0.25,\n    \"MSFT\": 0.20,\n    \"JPM\": 0.10,\n    \"JNJ\": 0.05\n  },\n  \"max_concentration\": 0.15,\n  \"sector_caps\": {\n    \"Technology\": 0.60,\n    \"Healthcare\": 0.10,\n    \"Financials\": 0.15\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repair-concentration",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repair-concentration"
+							]
+						}
+					}
+				},
+				{
+					"name": "Calculate Risk Metrics",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"weights\": {\n    \"AAPL\": 0.30,\n    \"GOOGL\": 0.25,\n    \"MSFT\": 0.20,\n    \"JPM\": 0.15,\n    \"JNJ\": 0.10\n  },\n  \"benchmark_weights\": {\n    \"AAPL\": 0.20,\n    \"GOOGL\": 0.20,\n    \"MSFT\": 0.20,\n    \"JPM\": 0.20,\n    \"JNJ\": 0.20\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/risk-metrics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"risk-metrics"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
