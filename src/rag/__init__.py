@@ -10,8 +10,4 @@ __version__ = "0.1.0"
 from .rag_minimal import SimpleRAG, test_rag
 from .rag_pgvector import PGVectorRAG
 
-__all__ = [
-    "SimpleRAG",
-    "PGVectorRAG", 
-    "test_rag"
-]
+__all__ = ["SimpleRAG", "PGVectorRAG", "test_rag"]

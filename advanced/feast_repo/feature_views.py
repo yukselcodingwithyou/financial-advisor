@@ -5,12 +5,12 @@ Feature views define how features are computed and retrieved from data sources.
 """
 
 from datetime import timedelta
+
 from feast import FeatureView, Field
-from feast.types import Float64, String, Int64
+from feast.types import Float64, Int64, String
 
-from .entities import security, date_entity, sector, country
 from .data_sources import data_sources
-
+from .entities import date_entity, security
 
 # Momentum features
 momentum_fv = FeatureView(
@@ -31,7 +31,7 @@ momentum_fv = FeatureView(
 
 # Value features
 value_fv = FeatureView(
-    name="value_features", 
+    name="value_features",
     entities=[security],
     schema=[
         Field(name="pe_ratio", dtype=Float64),

@@ -5,7 +5,6 @@ Entities represent the main keys that features are associated with.
 """
 
 from feast import Entity
-from feast.types import String, Int64
 
 # Security entity - represents individual stocks/securities
 security = Entity(
@@ -14,7 +13,7 @@ security = Entity(
     description="Individual security/stock identifier",
 )
 
-# Date entity - for time-based feature lookups  
+# Date entity - for time-based feature lookups
 date_entity = Entity(
     name="date",
     join_keys=["date"],
@@ -23,7 +22,7 @@ date_entity = Entity(
 
 # Portfolio entity - for portfolio-level features
 portfolio = Entity(
-    name="portfolio", 
+    name="portfolio",
     join_keys=["portfolio_id"],
     description="Portfolio identifier for portfolio-level features",
 )
@@ -38,7 +37,7 @@ sector = Entity(
 # Country entity - for country/region-level features
 country = Entity(
     name="country",
-    join_keys=["country_code"], 
+    join_keys=["country_code"],
     description="Country/region classification",
 )
 
@@ -50,11 +49,4 @@ factor = Entity(
 )
 
 # All entities list for easy import
-entities = [
-    security,
-    date_entity,
-    portfolio,
-    sector,
-    country,
-    factor
-]
+entities = [security, date_entity, portfolio, sector, country, factor]
