@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # PostgreSQL with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg15
+    container_name: financial_postgres
+    environment:
+      POSTGRES_DB: financial_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docs/sql/pgvector_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MLflow tracking server
+  mlflow:
+    image: python:3.11-slim
+    container_name: financial_mlflow
+    command: >
+      bash -c "
+        pip install mlflow psycopg2-binary &&
+        mlflow server 
+          --backend-store-uri postgresql://postgres:password@postgres:5432/financial_db
+          --default-artifact-root ./mlruns
+          --host 0.0.0.0 
+          --port 5000
+      "
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - mlflow_data:/mlruns
+    environment:
+      MLFLOW_TRACKING_URI: http://localhost:5000
+
+  # Financial Decision Engine API
+  api:
+    build: .
+    container_name: financial_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/financial_db
+      PGVECTOR_URL: postgresql://postgres:password@postgres:5432/financial_db
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MLFLOW_EXPERIMENT_NAME: financial_optimizer
+      USE_PGVECTOR: "true"
+      LOG_LEVEL: INFO
+    volumes:
+      - ./advanced:/app/advanced
+      - ./src:/app/src
+      - ./docs:/app/docs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Streamlit demo application
+  streamlit:
+    build: .
+    container_name: financial_streamlit
+    command: streamlit run app_streamlit.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      API_BASE_URL: http://api:8000
+    volumes:
+      - ./app_streamlit.py:/app/app_streamlit.py
+      - ./src:/app/src
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: financial_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # Jupyter notebook for development (optional)
+  jupyter:
+    build: .
+    container_name: financial_jupyter
+    command: >
+      bash -c "
+        pip install jupyter notebook ipykernel &&
+        jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      "
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+      - jupyter_data:/root/.jupyter
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+
+volumes:
+  postgres_data:
+  mlflow_data:
+  redis_data:
+  jupyter_data:
+
+networks:
+  default:
+    name: financial_network

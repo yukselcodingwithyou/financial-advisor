@@ -1,0 +1,56 @@
+symbol,theme,theme_code,exposure_level,description
+AAPL,Artificial Intelligence,AI,0.75,AI chips and ML capabilities
+MSFT,Cloud Computing,CLOUD,0.85,Azure cloud platform
+GOOGL,Artificial Intelligence,AI,0.90,AI/ML research and products
+AMZN,E-commerce,ECOM,0.95,Online retail platform
+TSLA,Electric Vehicles,EV,0.95,Electric vehicle manufacturing
+META,Metaverse,META,0.80,VR/AR and social platforms
+NVDA,Artificial Intelligence,AI,0.95,AI/ML hardware acceleration
+JPM,Fintech,FINTECH,0.40,Digital banking services
+JNJ,Healthcare Innovation,HEALTH,0.70,Medical devices and pharma
+V,Digital Payments,PAYMENTS,0.85,Payment processing technology
+PG,Consumer Staples,STAPLES,0.30,Essential consumer goods
+UNH,Healthcare Innovation,HEALTH,0.65,Health insurance and services
+HD,Real Estate,RE,0.25,Home improvement retail
+DIS,Streaming Media,MEDIA,0.60,Entertainment streaming
+BAC,Fintech,FINTECH,0.35,Digital banking services
+XOM,Energy Transition,ENERGY,0.40,Traditional energy with renewables
+CVX,Energy Transition,ENERGY,0.35,Oil and gas production
+PFE,Healthcare Innovation,HEALTH,0.85,Pharmaceutical research
+KO,Consumer Staples,STAPLES,0.90,Beverage manufacturing
+PEP,Consumer Staples,STAPLES,0.80,Food and beverage
+ADBE,Digital Transformation,DIGITAL,0.90,Creative and document software
+NFLX,Streaming Media,MEDIA,0.95,Video streaming platform
+CRM,Cloud Computing,CLOUD,0.90,Customer relationship management
+TMO,Healthcare Innovation,HEALTH,0.80,Life sciences equipment
+ABT,Healthcare Innovation,HEALTH,0.75,Medical devices and diagnostics
+COST,Consumer Staples,STAPLES,0.60,Warehouse retail
+AVGO,Semiconductors,SEMI,0.85,Chip design and manufacturing
+ACN,Digital Transformation,DIGITAL,0.80,Technology consulting
+DHR,Healthcare Innovation,HEALTH,0.70,Life sciences and diagnostics
+TXN,Semiconductors,SEMI,0.80,Analog and embedded processing
+NEE,Clean Energy,CLEAN,0.85,Renewable energy infrastructure
+LLY,Healthcare Innovation,HEALTH,0.90,Pharmaceutical development
+ORCL,Cloud Computing,CLOUD,0.70,Database and cloud services
+WMT,E-commerce,ECOM,0.50,Retail with online presence
+CSCO,Cybersecurity,CYBER,0.60,Network security solutions
+VZ,5G Technology,5G,0.70,Telecommunications infrastructure
+MRK,Healthcare Innovation,HEALTH,0.85,Pharmaceutical research
+BRK.B,Diversified,DIVERSIFIED,0.20,Conglomerate holding company
+QCOM,5G Technology,5G,0.90,Wireless communication chips
+T,5G Technology,5G,0.65,Telecommunications services
+IBM,Artificial Intelligence,AI,0.60,Enterprise AI and cloud
+GE,Industrial Automation,INDUSTRIAL,0.70,Industrial equipment and services
+F,Electric Vehicles,EV,0.60,Traditional auto with EV transition
+GM,Electric Vehicles,EV,0.65,Automotive with EV focus
+WFC,Fintech,FINTECH,0.30,Traditional banking
+C,Fintech,FINTECH,0.35,Global banking services
+ASML,Semiconductors,SEMI,0.95,Semiconductor equipment
+SAP,Digital Transformation,DIGITAL,0.85,Enterprise software
+NESN,Consumer Staples,STAPLES,0.85,Food and nutrition
+TSM,Semiconductors,SEMI,0.95,Contract chip manufacturing
+BABA,E-commerce,ECOM,0.90,Chinese e-commerce platform
+7203.T,Electric Vehicles,EV,0.50,Automotive with hybrid technology
+005930.KS,Semiconductors,SEMI,0.80,Memory and logic chips
+RIO,Commodities,COMMODITIES,0.90,Mining and metals
+RELIANCE.NS,Energy Transition,ENERGY,0.60,Petrochemicals and telecom
