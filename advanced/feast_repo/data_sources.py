@@ -4,93 +4,89 @@ Feast data sources definition for the Financial Decision Engine.
 Data sources define how Feast connects to external data systems.
 """
 
-from feast import BigQuerySource, FileSource
-from feast.data_source import DataSource
 import os
 
+from feast import BigQuerySource, FileSource
+
+
 # BigQuery data sources (for production)
-def get_bigquery_source(table: str, timestamp_field: str = "feature_timestamp") -> BigQuerySource:
+def get_bigquery_source(
+    table: str, timestamp_field: str = "feature_timestamp"
+) -> BigQuerySource:
     """Helper to create BigQuery sources with project configuration"""
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "your-project-id")
     dataset = os.getenv("BIGQUERY_DATASET", "financial_features")
-    
+
     return BigQuerySource(
         table=f"{project_id}.{dataset}.{table}",
         timestamp_field=timestamp_field,
     )
 
+
 # Market data sources
 momentum_source = get_bigquery_source(
-    table="momentum_features",
-    timestamp_field="feature_timestamp"
+    table="momentum_features", timestamp_field="feature_timestamp"
 )
 
 value_source = get_bigquery_source(
-    table="value_features", 
-    timestamp_field="feature_timestamp"
+    table="value_features", timestamp_field="feature_timestamp"
 )
 
 liquidity_source = get_bigquery_source(
-    table="liquidity_features",
-    timestamp_field="feature_timestamp" 
+    table="liquidity_features", timestamp_field="feature_timestamp"
 )
 
 sentiment_source = get_bigquery_source(
-    table="sentiment_features",
-    timestamp_field="feature_timestamp"
+    table="sentiment_features", timestamp_field="feature_timestamp"
 )
 
 # Risk model sources
 betas_source = get_bigquery_source(
-    table="beta_features",
-    timestamp_field="feature_timestamp"
+    table="beta_features", timestamp_field="feature_timestamp"
 )
 
 residuals_source = get_bigquery_source(
-    table="residual_features", 
-    timestamp_field="feature_timestamp"
+    table="residual_features", timestamp_field="feature_timestamp"
 )
 
 # Fundamental data sources
 earnings_source = get_bigquery_source(
-    table="earnings_features",
-    timestamp_field="feature_timestamp"
+    table="earnings_features", timestamp_field="feature_timestamp"
 )
 
 credit_risk_source = get_bigquery_source(
-    table="credit_risk_features",
-    timestamp_field="feature_timestamp"
+    table="credit_risk_features", timestamp_field="feature_timestamp"
 )
 
 esg_source = get_bigquery_source(
-    table="esg_features",
-    timestamp_field="feature_timestamp"
+    table="esg_features", timestamp_field="feature_timestamp"
 )
 
 # Derivatives data sources
 options_source = get_bigquery_source(
-    table="options_features",
-    timestamp_field="feature_timestamp"
+    table="options_features", timestamp_field="feature_timestamp"
 )
 
-# Macro data sources  
+# Macro data sources
 macro_source = get_bigquery_source(
-    table="macro_features",
-    timestamp_field="feature_timestamp"
+    table="macro_features", timestamp_field="feature_timestamp"
 )
 
 macro_surprise_source = get_bigquery_source(
-    table="macro_surprise_features",
-    timestamp_field="feature_timestamp"
+    table="macro_surprise_features", timestamp_field="feature_timestamp"
 )
 
+
 # File-based sources for development/testing
-def get_file_source(filename: str, timestamp_field: str = "feature_timestamp") -> FileSource:
+def get_file_source(
+    filename: str, timestamp_field: str = "feature_timestamp"
+) -> FileSource:
     """Helper to create file sources for local development"""
     return FileSource(
         path=f"data/{filename}",
         timestamp_field=timestamp_field,
     )
+
 
 # Development file sources (fallback when BigQuery not available)
 momentum_file_source = get_file_source("momentum_features.parquet")
@@ -121,5 +117,7 @@ data_sources = {
     "esg": esg_source if USE_BIGQUERY else esg_file_source,
     "options": options_source if USE_BIGQUERY else options_file_source,
     "macro": macro_source if USE_BIGQUERY else macro_file_source,
-    "macro_surprise": macro_surprise_source if USE_BIGQUERY else macro_surprise_file_source,
+    "macro_surprise": macro_surprise_source
+    if USE_BIGQUERY
+    else macro_surprise_file_source,
 }

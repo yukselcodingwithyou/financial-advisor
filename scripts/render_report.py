@@ -7,22 +7,21 @@ optimization results, risk analysis, and scenario testing into
 formatted reports.
 """
 
-import os
 import json
-import pandas as pd
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List
-import tempfile
+import os
 import subprocess
+import tempfile
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 
 def load_report_template() -> str:
     """Load the report template"""
-    template_path = Path('docs/report_template.md')
-    
+    template_path = Path("docs/report_template.md")
+
     if template_path.exists():
-        with open(template_path, 'r') as f:
+        with open(template_path) as f:
             return f.read()
     else:
         # Return default template
@@ -33,8 +32,8 @@ def get_default_template() -> str:
     """Get default report template if file doesn't exist"""
     return """# Portfolio Analysis Report
 
-**Generated:** {generation_date}  
-**Portfolio ID:** {portfolio_id}  
+**Generated:** {generation_date}
+**Portfolio ID:** {portfolio_id}
 **Analysis Period:** {analysis_period}
 
 ## Executive Summary
@@ -85,314 +84,331 @@ def get_default_template() -> str:
 """
 
 
-def generate_sample_data() -> Dict[str, Any]:
+def generate_sample_data() -> dict[str, Any]:
     """Generate sample data for report rendering"""
-    
+
     return {
-        'generation_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'portfolio_id': 'SAMPLE_PORTFOLIO_001',
-        'analysis_period': '2024-01-01 to 2024-12-31',
-        
-        'portfolio_weights': {
-            'AAPL': 0.15,
-            'MSFT': 0.12,
-            'GOOGL': 0.10,
-            'AMZN': 0.08,
-            'TSLA': 0.07,
-            'JPM': 0.06,
-            'JNJ': 0.05,
-            'V': 0.05,
-            'PG': 0.04,
-            'UNH': 0.04,
-            'HD': 0.04,
-            'NVDA': 0.03,
-            'DIS': 0.03,
-            'MA': 0.03,
-            'PYPL': 0.03,
-            'NFLX': 0.02,
-            'ADBE': 0.02,
-            'CRM': 0.02,
-            'INTC': 0.02,
-            'CSCO': 0.02,
+        "generation_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "portfolio_id": "SAMPLE_PORTFOLIO_001",
+        "analysis_period": "2024-01-01 to 2024-12-31",
+        "portfolio_weights": {
+            "AAPL": 0.15,
+            "MSFT": 0.12,
+            "GOOGL": 0.10,
+            "AMZN": 0.08,
+            "TSLA": 0.07,
+            "JPM": 0.06,
+            "JNJ": 0.05,
+            "V": 0.05,
+            "PG": 0.04,
+            "UNH": 0.04,
+            "HD": 0.04,
+            "NVDA": 0.03,
+            "DIS": 0.03,
+            "MA": 0.03,
+            "PYPL": 0.03,
+            "NFLX": 0.02,
+            "ADBE": 0.02,
+            "CRM": 0.02,
+            "INTC": 0.02,
+            "CSCO": 0.02,
         },
-        
-        'performance_metrics': {
-            'expected_return': 0.085,
-            'volatility': 0.156,
-            'sharpe_ratio': 0.545,
-            'max_drawdown': -0.078,
-            'var_95': -0.034,
-            'cvar_95': -0.051,
-            'beta': 0.98,
-            'alpha': 0.002,
-            'information_ratio': 0.23,
-            'tracking_error': 0.045
+        "performance_metrics": {
+            "expected_return": 0.085,
+            "volatility": 0.156,
+            "sharpe_ratio": 0.545,
+            "max_drawdown": -0.078,
+            "var_95": -0.034,
+            "cvar_95": -0.051,
+            "beta": 0.98,
+            "alpha": 0.002,
+            "information_ratio": 0.23,
+            "tracking_error": 0.045,
         },
-        
-        'risk_metrics': {
-            'concentration_hhi': 0.089,
-            'effective_num_assets': 11.2,
-            'max_weight': 0.15,
-            'sector_concentration': {
-                'Technology': 0.42,
-                'Healthcare': 0.14,
-                'Financials': 0.12,
-                'Consumer Discretionary': 0.18,
-                'Consumer Staples': 0.08,
-                'Communication Services': 0.06
-            }
+        "risk_metrics": {
+            "concentration_hhi": 0.089,
+            "effective_num_assets": 11.2,
+            "max_weight": 0.15,
+            "sector_concentration": {
+                "Technology": 0.42,
+                "Healthcare": 0.14,
+                "Financials": 0.12,
+                "Consumer Discretionary": 0.18,
+                "Consumer Staples": 0.08,
+                "Communication Services": 0.06,
+            },
         },
-        
-        'scenario_results': {
-            'base_case': 0.085,
-            'mild_recession': -0.058,
-            'severe_recession': -0.245,
-            'inflation_shock': -0.032,
-            'geopolitical_crisis': -0.089,
-            'bull_market': 0.187
+        "scenario_results": {
+            "base_case": 0.085,
+            "mild_recession": -0.058,
+            "severe_recession": -0.245,
+            "inflation_shock": -0.032,
+            "geopolitical_crisis": -0.089,
+            "bull_market": 0.187,
         },
-        
-        'factor_exposures': {
-            'market': 0.98,
-            'size': -0.12,
-            'value': -0.08,
-            'momentum': 0.15,
-            'quality': 0.22,
-            'low_volatility': -0.18,
-            'growth': 0.31
-        }
+        "factor_exposures": {
+            "market": 0.98,
+            "size": -0.12,
+            "value": -0.08,
+            "momentum": 0.15,
+            "quality": 0.22,
+            "low_volatility": -0.18,
+            "growth": 0.31,
+        },
     }
 
 
-def create_portfolio_composition_table(weights: Dict[str, float]) -> str:
+def create_portfolio_composition_table(weights: dict[str, float]) -> str:
     """Create portfolio composition table in markdown"""
-    
+
     # Sort by weight descending
     sorted_weights = sorted(weights.items(), key=lambda x: x[1], reverse=True)
-    
+
     table = "| Asset | Weight | Allocation |\n"
     table += "|-------|--------|------------|\n"
-    
+
     for asset, weight in sorted_weights:
         table += f"| {asset} | {weight:.3f} | {weight:.1%} |\n"
-    
+
     table += f"| **Total** | **{sum(weights.values()):.3f}** | **100.0%** |\n"
-    
+
     return table
 
 
-def create_performance_metrics_table(metrics: Dict[str, float]) -> str:
+def create_performance_metrics_table(metrics: dict[str, float]) -> str:
     """Create performance metrics table in markdown"""
-    
+
     metric_names = {
-        'expected_return': 'Expected Return',
-        'volatility': 'Volatility',
-        'sharpe_ratio': 'Sharpe Ratio',
-        'max_drawdown': 'Max Drawdown',
-        'var_95': 'VaR (95%)',
-        'cvar_95': 'CVaR (95%)',
-        'beta': 'Beta',
-        'alpha': 'Alpha',
-        'information_ratio': 'Information Ratio',
-        'tracking_error': 'Tracking Error'
+        "expected_return": "Expected Return",
+        "volatility": "Volatility",
+        "sharpe_ratio": "Sharpe Ratio",
+        "max_drawdown": "Max Drawdown",
+        "var_95": "VaR (95%)",
+        "cvar_95": "CVaR (95%)",
+        "beta": "Beta",
+        "alpha": "Alpha",
+        "information_ratio": "Information Ratio",
+        "tracking_error": "Tracking Error",
     }
-    
+
     table = "| Metric | Value | Formatted |\n"
     table += "|--------|-------|----------|\n"
-    
+
     for key, name in metric_names.items():
         if key in metrics:
             value = metrics[key]
-            if key in ['expected_return', 'volatility', 'max_drawdown', 'var_95', 'cvar_95', 'alpha', 'tracking_error']:
+            if key in [
+                "expected_return",
+                "volatility",
+                "max_drawdown",
+                "var_95",
+                "cvar_95",
+                "alpha",
+                "tracking_error",
+            ]:
                 formatted = f"{value:.2%}"
             else:
                 formatted = f"{value:.3f}"
-            
+
             table += f"| {name} | {value:.6f} | {formatted} |\n"
-    
+
     return table
 
 
-def create_risk_metrics_table(risk_data: Dict[str, Any]) -> str:
+def create_risk_metrics_table(risk_data: dict[str, Any]) -> str:
     """Create risk metrics table in markdown"""
-    
+
     table = "| Risk Metric | Value |\n"
     table += "|-------------|-------|\n"
     table += f"| Concentration (HHI) | {risk_data['concentration_hhi']:.4f} |\n"
-    table += f"| Effective Number of Assets | {risk_data['effective_num_assets']:.1f} |\n"
+    table += (
+        f"| Effective Number of Assets | {risk_data['effective_num_assets']:.1f} |\n"
+    )
     table += f"| Maximum Single Weight | {risk_data['max_weight']:.1%} |\n"
-    
-    if 'sector_concentration' in risk_data:
+
+    if "sector_concentration" in risk_data:
         table += "\n### Sector Allocation\n\n"
         table += "| Sector | Allocation |\n"
         table += "|--------|------------|\n"
-        
-        for sector, allocation in risk_data['sector_concentration'].items():
+
+        for sector, allocation in risk_data["sector_concentration"].items():
             table += f"| {sector} | {allocation:.1%} |\n"
-    
+
     return table
 
 
-def create_scenario_analysis_table(scenarios: Dict[str, float]) -> str:
+def create_scenario_analysis_table(scenarios: dict[str, float]) -> str:
     """Create scenario analysis table in markdown"""
-    
+
     scenario_names = {
-        'base_case': 'Base Case',
-        'mild_recession': 'Mild Recession',
-        'severe_recession': 'Severe Recession',
-        'inflation_shock': 'Inflation Shock',
-        'geopolitical_crisis': 'Geopolitical Crisis',
-        'bull_market': 'Bull Market'
+        "base_case": "Base Case",
+        "mild_recession": "Mild Recession",
+        "severe_recession": "Severe Recession",
+        "inflation_shock": "Inflation Shock",
+        "geopolitical_crisis": "Geopolitical Crisis",
+        "bull_market": "Bull Market",
     }
-    
+
     table = "| Scenario | Expected Return | Impact |\n"
     table += "|----------|----------------|--------|\n"
-    
-    base_return = scenarios.get('base_case', 0)
-    
+
+    base_return = scenarios.get("base_case", 0)
+
     for key, name in scenario_names.items():
         if key in scenarios:
             return_val = scenarios[key]
-            impact = return_val - base_return if key != 'base_case' else 0
-            
+            impact = return_val - base_return if key != "base_case" else 0
+
             impact_str = f"{impact:+.1%}" if impact != 0 else "baseline"
             table += f"| {name} | {return_val:.1%} | {impact_str} |\n"
-    
+
     return table
 
 
-def create_factor_exposures_table(exposures: Dict[str, float]) -> str:
+def create_factor_exposures_table(exposures: dict[str, float]) -> str:
     """Create factor exposures table in markdown"""
-    
+
     factor_names = {
-        'market': 'Market (Beta)',
-        'size': 'Size Factor',
-        'value': 'Value Factor',
-        'momentum': 'Momentum Factor',
-        'quality': 'Quality Factor',
-        'low_volatility': 'Low Volatility Factor',
-        'growth': 'Growth Factor'
+        "market": "Market (Beta)",
+        "size": "Size Factor",
+        "value": "Value Factor",
+        "momentum": "Momentum Factor",
+        "quality": "Quality Factor",
+        "low_volatility": "Low Volatility Factor",
+        "growth": "Growth Factor",
     }
-    
+
     table = "| Factor | Exposure | Interpretation |\n"
     table += "|--------|----------|----------------|\n"
-    
+
     for key, name in factor_names.items():
         if key in exposures:
             exposure = exposures[key]
-            
+
             if abs(exposure) < 0.1:
                 interpretation = "Neutral"
             elif exposure > 0.1:
                 interpretation = "Positive tilt"
             else:
                 interpretation = "Negative tilt"
-            
+
             table += f"| {name} | {exposure:+.3f} | {interpretation} |\n"
-    
+
     return table
 
 
-def generate_executive_summary(data: Dict[str, Any]) -> str:
+def generate_executive_summary(data: dict[str, Any]) -> str:
     """Generate executive summary based on portfolio data"""
-    
-    performance = data['performance_metrics']
-    risk = data['risk_metrics']
-    
-    summary = f"""This portfolio analysis evaluates a {len(data['portfolio_weights'])}-asset portfolio with an expected return of {performance['expected_return']:.1%} and volatility of {performance['volatility']:.1%}.
+
+    performance = data["performance_metrics"]
+    risk = data["risk_metrics"]
+
+    summary = f"""This portfolio analysis evaluates a {len(data["portfolio_weights"])}-asset portfolio with an expected return of {performance["expected_return"]:.1%} and volatility of {performance["volatility"]:.1%}.
 
 **Key Highlights:**
-- Sharpe ratio of {performance['sharpe_ratio']:.2f} indicates moderate risk-adjusted performance
-- Portfolio concentration (HHI = {risk['concentration_hhi']:.3f}) suggests good diversification
-- Maximum drawdown risk estimated at {performance['max_drawdown']:.1%}
-- Technology sector represents the largest allocation at {risk['sector_concentration']['Technology']:.1%}
+- Sharpe ratio of {performance["sharpe_ratio"]:.2f} indicates moderate risk-adjusted performance
+- Portfolio concentration (HHI = {risk["concentration_hhi"]:.3f}) suggests good diversification
+- Maximum drawdown risk estimated at {performance["max_drawdown"]:.1%}
+- Technology sector represents the largest allocation at {risk["sector_concentration"]["Technology"]:.1%}
 
 **Risk Assessment:**
-The portfolio demonstrates balanced risk characteristics with effective diversification across {risk['effective_num_assets']:.0f} equivalent positions. Stress testing reveals vulnerability to severe market downturns but resilience in moderate volatility scenarios."""
-    
+The portfolio demonstrates balanced risk characteristics with effective diversification across {risk["effective_num_assets"]:.0f} equivalent positions. Stress testing reveals vulnerability to severe market downturns but resilience in moderate volatility scenarios."""
+
     return summary
 
 
-def generate_recommendations(data: Dict[str, Any]) -> str:
+def generate_recommendations(data: dict[str, Any]) -> str:
     """Generate recommendations based on analysis"""
-    
+
     recommendations = []
-    
+
     # Check concentration
-    if data['risk_metrics']['concentration_hhi'] > 0.15:
-        recommendations.append("• **Reduce Concentration**: Consider reducing position sizes in largest holdings to improve diversification")
-    
+    if data["risk_metrics"]["concentration_hhi"] > 0.15:
+        recommendations.append(
+            "• **Reduce Concentration**: Consider reducing position sizes in largest holdings to improve diversification"
+        )
+
     # Check factor exposures
-    growth_exposure = data['factor_exposures'].get('growth', 0)
+    growth_exposure = data["factor_exposures"].get("growth", 0)
     if growth_exposure > 0.25:
-        recommendations.append("• **Growth Tilt**: Portfolio has significant growth bias; consider adding value-oriented positions for balance")
-    
+        recommendations.append(
+            "• **Growth Tilt**: Portfolio has significant growth bias; consider adding value-oriented positions for balance"
+        )
+
     # Check sector allocation
-    tech_allocation = data['risk_metrics']['sector_concentration'].get('Technology', 0)
+    tech_allocation = data["risk_metrics"]["sector_concentration"].get("Technology", 0)
     if tech_allocation > 0.4:
-        recommendations.append("• **Sector Diversification**: Technology allocation is high; consider rebalancing to other sectors")
-    
+        recommendations.append(
+            "• **Sector Diversification**: Technology allocation is high; consider rebalancing to other sectors"
+        )
+
     # Performance-based recommendations
-    sharpe = data['performance_metrics']['sharpe_ratio']
+    sharpe = data["performance_metrics"]["sharpe_ratio"]
     if sharpe < 0.5:
-        recommendations.append("• **Risk-Adjusted Performance**: Consider strategies to improve risk-adjusted returns")
-    
+        recommendations.append(
+            "• **Risk-Adjusted Performance**: Consider strategies to improve risk-adjusted returns"
+        )
+
     # Default recommendations
     if not recommendations:
         recommendations = [
             "• **Maintain Current Strategy**: Portfolio demonstrates good risk-return characteristics",
             "• **Regular Rebalancing**: Implement systematic rebalancing to maintain target allocations",
-            "• **Monitor Market Conditions**: Stay alert to changing market regimes that may require strategy adjustments"
+            "• **Monitor Market Conditions**: Stay alert to changing market regimes that may require strategy adjustments",
         ]
-    
+
     return "\n".join(recommendations)
 
 
-def render_report(data: Dict[str, Any], template: str) -> str:
+def render_report(data: dict[str, Any], template: str) -> str:
     """Render the complete report using template and data"""
-    
+
     # Create all table components
-    portfolio_table = create_portfolio_composition_table(data['portfolio_weights'])
-    performance_table = create_performance_metrics_table(data['performance_metrics'])
-    risk_table = create_risk_metrics_table(data['risk_metrics'])
-    scenario_table = create_scenario_analysis_table(data['scenario_results'])
-    factor_table = create_factor_exposures_table(data['factor_exposures'])
-    
+    portfolio_table = create_portfolio_composition_table(data["portfolio_weights"])
+    performance_table = create_performance_metrics_table(data["performance_metrics"])
+    risk_table = create_risk_metrics_table(data["risk_metrics"])
+    scenario_table = create_scenario_analysis_table(data["scenario_results"])
+    factor_table = create_factor_exposures_table(data["factor_exposures"])
+
     # Generate text components
     executive_summary = generate_executive_summary(data)
     recommendations = generate_recommendations(data)
-    
+
     # Concentration analysis
-    hhi = data['risk_metrics']['concentration_hhi']
+    hhi = data["risk_metrics"]["concentration_hhi"]
     if hhi < 0.05:
-        concentration_analysis = "Portfolio shows excellent diversification with low concentration risk."
+        concentration_analysis = (
+            "Portfolio shows excellent diversification with low concentration risk."
+        )
     elif hhi < 0.10:
-        concentration_analysis = "Portfolio demonstrates good diversification with moderate concentration."
+        concentration_analysis = (
+            "Portfolio demonstrates good diversification with moderate concentration."
+        )
     else:
         concentration_analysis = "Portfolio shows elevated concentration risk. Consider reducing largest positions."
-    
+
     # Methodology and data sources
     methodology_notes = """The analysis employs modern portfolio theory for optimization, incorporating:
 - Mean-variance optimization with risk aversion parameters
 - Concentration risk measurement using Herfindahl-Hirschman Index
 - Scenario analysis across multiple market stress conditions
 - Factor model decomposition for risk attribution"""
-    
+
     data_sources = """- Market data: Financial data providers
 - Fundamental data: Company financial statements
 - Economic indicators: Central bank and government sources
 - Risk model: Proprietary factor models"""
-    
-    scenario_summary = f"""Portfolio stress testing across {len(data['scenario_results'])} scenarios reveals:
-- Best case scenario: {max(data['scenario_results'].values()):.1%} return
-- Worst case scenario: {min(data['scenario_results'].values()):.1%} return
-- Scenario range: {max(data['scenario_results'].values()) - min(data['scenario_results'].values()):.1%}"""
-    
+
+    scenario_summary = f"""Portfolio stress testing across {len(data["scenario_results"])} scenarios reveals:
+- Best case scenario: {max(data["scenario_results"].values()):.1%} return
+- Worst case scenario: {min(data["scenario_results"].values()):.1%} return
+- Scenario range: {max(data["scenario_results"].values()) - min(data["scenario_results"].values()):.1%}"""
+
     # Format template
     formatted_report = template.format(
-        generation_date=data['generation_date'],
-        portfolio_id=data['portfolio_id'],
-        analysis_period=data['analysis_period'],
+        generation_date=data["generation_date"],
+        portfolio_id=data["portfolio_id"],
+        analysis_period=data["analysis_period"],
         executive_summary=executive_summary,
         portfolio_composition_table=portfolio_table,
         performance_metrics_table=performance_table,
@@ -403,84 +419,89 @@ def render_report(data: Dict[str, Any], template: str) -> str:
         factor_exposures_table=factor_table,
         recommendations=recommendations,
         methodology_notes=methodology_notes,
-        data_sources=data_sources
+        data_sources=data_sources,
     )
-    
+
     return formatted_report
 
 
 def convert_to_pdf(markdown_content: str, output_path: Path) -> bool:
     """Convert markdown report to PDF using pandoc (if available)"""
-    
+
     try:
         # Check if pandoc is available
-        subprocess.run(['pandoc', '--version'], capture_output=True, check=True)
-        
+        subprocess.run(["pandoc", "--version"], capture_output=True, check=True)
+
         # Create temporary markdown file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.md', delete=False) as temp_md:
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".md", delete=False
+        ) as temp_md:
             temp_md.write(markdown_content)
             temp_md_path = temp_md.name
-        
+
         # Convert to PDF
         cmd = [
-            'pandoc',
+            "pandoc",
             temp_md_path,
-            '-o', str(output_path),
-            '--pdf-engine=xelatex',
-            '--template=default',
-            '--highlight-style=github'
+            "-o",
+            str(output_path),
+            "--pdf-engine=xelatex",
+            "--template=default",
+            "--highlight-style=github",
         ]
-        
+
         subprocess.run(cmd, check=True)
-        
+
         # Clean up
         os.unlink(temp_md_path)
-        
+
         return True
-        
+
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
 
 
 def main():
     """Main report generation function"""
-    
-    output_dir = Path('docs/images')
+
+    output_dir = Path("docs/images")
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     print("📄 Generating portfolio analysis report...")
-    
+
     # Load template
     template = load_report_template()
-    
+
     # Generate sample data (in production, this would come from actual analysis)
     data = generate_sample_data()
-    
+
     # Render report
     report_content = render_report(data, template)
-    
+
     # Save markdown report
-    report_md_path = output_dir / 'portfolio_analysis_report.md'
-    with open(report_md_path, 'w') as f:
+    report_md_path = output_dir / "portfolio_analysis_report.md"
+    with open(report_md_path, "w") as f:
         f.write(report_content)
-    
+
     print(f"✅ Markdown report saved to {report_md_path}")
-    
+
     # Try to convert to PDF
-    report_pdf_path = output_dir / 'portfolio_analysis_report.pdf'
+    report_pdf_path = output_dir / "portfolio_analysis_report.pdf"
     if convert_to_pdf(report_content, report_pdf_path):
         print(f"📑 PDF report saved to {report_pdf_path}")
     else:
         print("⚠️  PDF conversion skipped (pandoc not available)")
-        print("   Install pandoc to enable PDF generation: apt-get install pandoc texlive-xetex")
-    
+        print(
+            "   Install pandoc to enable PDF generation: apt-get install pandoc texlive-xetex"
+        )
+
     # Save data as JSON for reference
-    data_path = output_dir / 'portfolio_analysis_data.json'
-    with open(data_path, 'w') as f:
+    data_path = output_dir / "portfolio_analysis_data.json"
+    with open(data_path, "w") as f:
         json.dump(data, f, indent=2)
-    
+
     print(f"💾 Analysis data saved to {data_path}")
-    
+
     print("\n📊 Report Summary:")
     print(f"  Portfolio Assets: {len(data['portfolio_weights'])}")
     print(f"  Expected Return: {data['performance_metrics']['expected_return']:.2%}")
@@ -488,7 +509,7 @@ def main():
     print(f"  Sharpe Ratio: {data['performance_metrics']['sharpe_ratio']:.3f}")
     print(f"  Max Drawdown: {data['performance_metrics']['max_drawdown']:.2%}")
     print(f"  Concentration (HHI): {data['risk_metrics']['concentration_hhi']:.4f}")
-    
+
     print("\n✅ Portfolio analysis report generated successfully!")
     print("\nThe report includes:")
     print("• Executive summary with key findings")
